@@ -3,7 +3,7 @@
 # platform-blocks-layout — generated prop reference
 
 Exhaustive prop tables, extracted from the component sources of
-`@platform-blocks/ui@1.0.0` — the same data behind
+`@platform-blocks/ui@1.1.0` — the same data behind
 https://platform-blocks.com/llms.txt.
 
 This file is generated. `api.md` next to it is hand-written and covers what

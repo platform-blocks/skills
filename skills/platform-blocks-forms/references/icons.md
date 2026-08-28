@@ -2,7 +2,7 @@
 
 # Icon registry — every built-in `name`
 
-`@platform-blocks/ui@1.0.0` registers 216 icons by default,
+`@platform-blocks/ui@1.1.0` registers 216 icons by default,
 backed by `@tabler/icons-react-native`. These are the only strings `name`
 accepts out of the box — anything else renders nothing, so **do not guess an
 icon name**; pick one from this list or pass a component instead.

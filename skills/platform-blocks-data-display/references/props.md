@@ -3,7 +3,7 @@
 # platform-blocks-data-display — generated prop reference
 
 Exhaustive prop tables, extracted from the component sources of
-`@platform-blocks/ui@1.0.0` — the same data behind
+`@platform-blocks/ui@1.1.0` — the same data behind
 https://platform-blocks.com/llms.txt.
 
 This file is generated. `api.md` next to it is hand-written and covers what
@@ -229,6 +229,11 @@ Tree component for displaying hierarchical data structures like file systems, na
 | `virtualized` | `boolean` | — | — | Render rows through a virtualized list. Disables expand/collapse animation. |
 | `height` | `number` | — | — | Viewport height for the virtualized list |
 | `keyboardNavigation` | `boolean` | — | — | Arrow-key navigation, type-ahead and roving focus (web). Defaults to on. |
+| `activeId` | `string` | — | — | Id of the node representing the current location — the navigation counterpart to selection. It paints the row as active, opens the branches above it, and scrolls it into view, without consuming `selectedIds`. |
+| `activeHref` | `string` | — | — | `activeId`, resolved by matching a node's `href` instead. Hand it a pathname and the tree finds the row. Ignored when `activeId` is set. |
+| `expandToActive` | `boolean` | — | `true` | Open the branches leading to the active node whenever it changes. Re-opening is keyed on the ancestor set, so a branch the reader collapsed stays collapsed while they move between its children. |
+| `scrollActiveIntoView` | `boolean` | — | `true` | Scroll the active row into view once it becomes visible (web only). |
+| `persistKey` | `string` | — | — | Remember which branches are open across reloads, under this key (`localStorage`, web only). Ignored while expansion is controlled through `expandedIds` — the parent owns the state in that mode. |
 | `selectionColor` | `string` | — | — | Base color for selection / focus affordances. Defaults to the primary palette. |
 | `accessibilityLabel` | `string` | — | — | Accessible name for the tree container |
 
