@@ -140,3 +140,43 @@ and always stamps `data-platform-blocks-color-scheme="light|dark"` on `<html>`. 
   switcher UI, persisted mode config (web + native), custom brand palettes with and
   without dark mode, reading tokens, Surface elevation, variant-aware custom
   components, nested sub-tree themes, and web CSS integration.
+
+## Anything this skill does not cover
+
+This skill covers the theme object, color schemes, palettes, surfaces, and
+variant color resolution. Platform Blocks is much larger — 97 components, 25
+charts, and 18 hooks. Do not guess an API for something outside this scope;
+fetch the generated docs instead:
+
+| What you need | Where |
+| --- | --- |
+| Index of every page, one line each | `https://platform-blocks.com/llms.txt` |
+| One component or chart | `https://platform-blocks.com/llms/components/<Name>.md` |
+| One hook | `https://platform-blocks.com/llms/hooks/<useName>.md` |
+| Guides | `https://platform-blocks.com/llms/guides/{getting-started,accessibility,localization}.md` |
+| Everything in one file (~1.3 MB) | `https://platform-blocks.com/llms-full.txt` |
+
+`<Name>` is the exact PascalCase export name — `.../llms/components/DataTable.md`,
+`.../llms/components/AreaChart.md`. Each page carries the component's full prop
+table (type, required, default, description) plus runnable examples, generated
+from the source, so it is authoritative where memory is not. When you are unsure
+whether something exists or what it is called, read `llms.txt` first — it lists
+every page with a one-line summary.
+
+Import paths: components come from the package root (`import { X } from
+'@platform-blocks/ui'`). The exceptions are subpath-only: `FormLayout`
+(`@platform-blocks/ui/FormLayout`), `AudioPlayer`
+(`@platform-blocks/ui/AudioPlayer`), and the whole `Navigation` module —
+`NavigationContainer`, `createStackNavigator`, `createDrawerNavigator`,
+`Screen`, `useNavigation`, `useRoute` (`@platform-blocks/ui/Navigation`). A few
+utilities also live on subpaths (e.g. `validationRules` on
+`@platform-blocks/ui/Input`). A docs page existing does not guarantee a root
+export — `HoverCard`, for instance, is internal and has no page and no export.
+
+Notably outside this skill:
+
+- **Per-component styling props.** Which `variant`/`size`/`colorVariant` values a
+  given component accepts is on that component's page — theming defines what the
+  values mean, not which ones exist.
+- **Install and provider wiring** → the `platform-blocks-setup` skill. **Layout**
+  → `platform-blocks-layout`. **Chart theming** → `platform-blocks-charts`.

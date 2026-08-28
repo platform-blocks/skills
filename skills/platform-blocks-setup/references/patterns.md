@@ -2,7 +2,7 @@
 
 All code below is taken verbatim from the official templates
 (`platform-blocks/expo-template`, `platform-blocks/expo-min-template`) and works
-against `@platform-blocks/ui@1.0.0`.
+against `@platform-blocks/ui@1.0.0` and `@1.0.1`.
 
 ## Minimal app root (no router) — `App.tsx`
 

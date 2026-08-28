@@ -27,10 +27,11 @@ npx create-expo-app@latest my-app --template https://github.com/platform-blocks/
 ## Core workflow (manual install)
 
 1. **Install the library**: `npm install @platform-blocks/ui`
-2. **Install the full dependency set** — not just the hard peers (see pitfall #1 below).
-   Copy the exact working dependency list from `expo-template/package.json`
-   (reproduced in `references/api.md`). On Expo, use `npx expo install` so versions
-   match the SDK.
+2. **Install the dependency set** — on **v1.0.0** that means the full list, not just
+   the hard peers; on **v1.0.1+** only what your components need (see pitfall #1).
+   The safe default either way is to copy the exact working dependency list from
+   `expo-template/package.json` (reproduced in `references/api.md`). On Expo, use
+   `npx expo install` so versions match the SDK.
 3. **Configure Babel** — `presets: ['babel-preset-expo']`,
    `plugins: ['react-native-worklets/plugin']` (the worklets plugin replaces the old
    reanimated plugin and must be **last**).
@@ -48,18 +49,35 @@ renders one fails to resolve.
 
 ## Common pitfalls
 
-1. **"Optional" peers are required to bundle (v1.0.0).** Metro statically resolves
-   the eager `require()` map in the library's `optionalModule` helper, plus static
-   imports in Masonry (`@shopify/flash-list`), Carousel
-   (`react-native-reanimated-carousel`), and GradientText/ShimmerText
-   (`@react-native-masked-view/masked-view`). So the app will not bundle without:
-   `@shopify/flash-list`, `react-native-reanimated-carousel`,
-   `@react-native-masked-view/masked-view`, `expo-clipboard`, `expo-haptics`,
-   `expo-linear-gradient`, `expo-document-picker`, `react-native-webview`,
-   `lodash.debounce`, `expo-audio`, `react-native-gesture-handler`,
-   `expo-status-bar`, `expo-navigation-bar`. Several of these are not declared as
-   peers at all, so `npm install` gives no warning — the failure appears only as a
-   Metro "Unable to resolve module" error. Install the whole set up front.
+1. **How many dependencies you actually need depends on the version.** Check with
+   `npm ls @platform-blocks/ui` before deciding.
+
+   - **v1.0.0 — the "optional" peers are mandatory.** Metro statically resolves
+     the eager `require()` map in the library's `optionalModule` helper, plus
+     static imports in Masonry (`@shopify/flash-list`), Carousel
+     (`react-native-reanimated-carousel`), and GradientText/ShimmerText
+     (`@react-native-masked-view/masked-view`). The app will not bundle without
+     all of: `@shopify/flash-list`, `react-native-reanimated-carousel`,
+     `@react-native-masked-view/masked-view`, `expo-clipboard`, `expo-haptics`,
+     `expo-linear-gradient`, `expo-document-picker`, `react-native-webview`,
+     `lodash.debounce`, `expo-audio`, `react-native-gesture-handler`,
+     `expo-status-bar`, `expo-navigation-bar`. Several are not declared as peers
+     at all, so `npm install` gives no warning — the failure appears only as a
+     Metro "Unable to resolve module" error. Install the whole set up front.
+
+   - **v1.0.1+ — they are genuinely optional.** Every loader `require()` now sits
+     inside its own lexical `try/catch` (the shape Metro's
+     `allowOptionalDependencies` needs to see at each call site), and Masonry,
+     Carousel, DataTable, GradientText and ShimmerText resolve their engines
+     lazily. Install only what the components you actually use need; each missing
+     module degrades gracefully with a dev warning rather than breaking the
+     bundle. See the degradation table in `references/api.md`. The one hard case
+     is `Carousel`, which has no engine without
+     `react-native-reanimated-carousel` and cannot render at all.
+
+   Installing the full set is always safe on either version — it just costs
+   install size on 1.0.1+.
+
 2. **react-native version with Jest.** Use react-native **0.86.3+** when the app
    runs jest-expo — 0.86.0 conflicts with jest-expo's `@react-native/jest-preset`
    peer. (expo-min-template ships 0.86.0 only because it has no Jest setup.)
@@ -110,3 +128,43 @@ web output, add the flash-free `+html.tsx` script. All code is in
   Router `_layout.tsx` (provider + ThemeModeConfig + ContentReveal +
   NavigationThemeBridge), flash-free `+html.tsx`, `babel.config.js`, Jest test
   with SafeAreaProvider metrics, package.json jest block.
+
+## Anything this skill does not cover
+
+This skill covers installing and configuring the library so an app builds,
+renders, and tests. Platform Blocks is much larger — 97 components, 25 charts,
+and 18 hooks. Do not guess an API for something outside this scope; fetch the
+generated docs instead:
+
+| What you need | Where |
+| --- | --- |
+| Index of every page, one line each | `https://platform-blocks.com/llms.txt` |
+| One component or chart | `https://platform-blocks.com/llms/components/<Name>.md` |
+| One hook | `https://platform-blocks.com/llms/hooks/<useName>.md` |
+| Guides | `https://platform-blocks.com/llms/guides/{getting-started,accessibility,localization}.md` |
+| Everything in one file (~1.3 MB) | `https://platform-blocks.com/llms-full.txt` |
+
+`<Name>` is the exact PascalCase export name — `.../llms/components/DataTable.md`,
+`.../llms/components/AreaChart.md`. Each page carries the component's full prop
+table (type, required, default, description) plus runnable examples, generated
+from the source, so it is authoritative where memory is not. When you are unsure
+whether something exists or what it is called, read `llms.txt` first — it lists
+every page with a one-line summary.
+
+Import paths: components come from the package root (`import { X } from
+'@platform-blocks/ui'`). The exceptions are subpath-only: `FormLayout`
+(`@platform-blocks/ui/FormLayout`), `AudioPlayer`
+(`@platform-blocks/ui/AudioPlayer`), and the whole `Navigation` module —
+`NavigationContainer`, `createStackNavigator`, `createDrawerNavigator`,
+`Screen`, `useNavigation`, `useRoute` (`@platform-blocks/ui/Navigation`). A few
+utilities also live on subpaths (e.g. `validationRules` on
+`@platform-blocks/ui/Input`). A docs page existing does not guarantee a root
+export — `HoverCard`, for instance, is internal and has no page and no export.
+
+Notably outside this skill:
+
+- **Component and hook APIs** — this skill stops once the app renders; it does
+  not document what any component does.
+- **Theming** → the `platform-blocks-theming` skill. **Layout and app chrome** →
+  `platform-blocks-layout`. **Forms and inputs** → `platform-blocks-forms`.
+  **Charts** → `platform-blocks-charts`.

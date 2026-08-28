@@ -1,8 +1,11 @@
 # Platform Blocks setup — API and dependency reference
 
-Verified against `@platform-blocks/ui@1.0.0` and the official templates
-(`platform-blocks/expo-template`, `platform-blocks/expo-min-template`).
+Verified against `@platform-blocks/ui@1.0.0` and `@1.0.1`, and the official
+templates (`platform-blocks/expo-template`, `platform-blocks/expo-min-template`).
 Docs: https://platform-blocks.com/getting-started
+
+Where the two versions differ, both are documented — check which one the app has
+with `npm ls @platform-blocks/ui`.
 
 ## Install commands
 
@@ -16,7 +19,9 @@ npx expo install react-native-reanimated react-native-safe-area-context react-na
 npm install react-native-reanimated react-native-safe-area-context react-native-svg @tabler/icons-react-native
 ```
 
-Then install the full "optional-but-required" set below (see the Metro section for why).
+On **v1.0.0**, then install the full "optional-but-required" set below (see the
+Metro section for why). On **v1.0.1+** those became genuinely optional — install
+only what the components you use need.
 
 ## Hard peer dependencies
 
@@ -35,9 +40,9 @@ Declared in `peerDependencies` and NOT marked optional in `peerDependenciesMeta`
 Reanimated 4 companion and supplies the Babel plugin and Jest resolver — treat it
 as required in any Reanimated 4 app.
 
-## Optional peers that are REQUIRED to bundle (v1.0.0)
+## Optional peers — REQUIRED to bundle on v1.0.0, optional from v1.0.1
 
-Metro statically resolves every `require()` in the library's eager
+**On v1.0.0**, Metro statically resolves every `require()` in the library's eager
 `optionalModule` loader map (`packages/ui/src/utils/optionalModule.ts` — "Metro
 bundler requires static string literals for require; keep all optional modules
 here"), plus static top-of-file imports in `Masonry` (`@shopify/flash-list`),
@@ -66,6 +71,35 @@ missing one is a Metro `Unable to resolve module` error at bundle time.
 `react-syntax-highlighter` (optional peer, `>=15.0.0`) is deliberately NOT in the
 loader map (it breaks Metro on native when absent); it is only needed for
 web-only syntax highlighting.
+
+### v1.0.1+ — what each missing module actually costs
+
+From 1.0.1 every loader `require()` sits inside its own lexical `try/catch`, which
+is what Metro's `allowOptionalDependencies` (on by default in Expo and RN CLI
+metro configs) needs to see at the call site, and `Masonry`/`Carousel`/
+`DataTable`/`GradientText`/`ShimmerText` resolve their engines lazily. Omitting a
+module no longer breaks the bundle — it degrades the feature and logs a dev
+warning:
+
+| Package | Used by | Behavior when missing (v1.0.1+) |
+| --- | --- | --- |
+| `react-native-reanimated-carousel` | `Carousel` | **`Carousel` has no engine and cannot render.** Required if you use it. |
+| `@shopify/flash-list` | `Masonry`, `DataTable virtual`, `Tree virtualized` | Renders every row in a `ScrollView` — correct output, no virtualization |
+| `@react-native-masked-view/masked-view` | `GradientText`, `ShimmerText` | Native: plain colored text / static text with no shimmer (web unaffected) |
+| `expo-linear-gradient` | `variant="gradient"` on `Button`, `Card`, `Chip`, `Divider`, `IconButton`, plus `GradientText`/`ShimmerText` | Falls back to the first gradient color as a solid background |
+| `expo-document-picker` | `FileInput` on native | Native file picking disabled (web `<input type="file">` unaffected) |
+| `expo-clipboard` | `useClipboard`, `CopyButton`, `QRCode` | Clipboard support limited on native |
+| `expo-haptics` | `useHaptics`, `SoundProvider`, Button/IconButton/Toast feedback | No haptic feedback |
+| `expo-audio` | `AudioPlayer`, `SoundProvider` | `AudioPlayer` renders its controls but cannot play audio |
+| `react-native-gesture-handler` | `Toast` | Toast renders normally; swipe-to-dismiss disabled |
+| `react-native-webview` | `Video` with a YouTube source | YouTube works on web only; native renders an install prompt |
+| `lodash.debounce` | `AutoComplete` | Falls back to the library's own basic debounce |
+| `expo-status-bar` | `AppShell` status bar theming | Status bar not rendered/themed |
+| `expo-navigation-bar` | `AppShell` Android navigation bar | Navigation bar not styled |
+
+`react-native-worklets`, `react-native-svg`, `react-native-safe-area-context` and
+`@tabler/icons-react-native` are **not** in this table — they are hard peers on
+every version.
 
 ## Known-good dependency set (from expo-template, Expo SDK 57)
 

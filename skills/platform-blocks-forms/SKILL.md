@@ -11,7 +11,16 @@ Form building with `@platform-blocks/ui` for React Native (iOS/Android/Web). Eve
 import { Form, Input, Select, Checkbox, Button, KeyboardAwareLayout } from '@platform-blocks/ui';
 ```
 
-`references/api.md` has full prop tables; `references/patterns.md` has complete copy-paste screens.
+Four reference files sit alongside this one:
+
+- `references/api.md` — the curated API: how the pieces compose, the union
+  types, the defaults that bite. **Read this first.**
+- `references/props.md` — generated, exhaustive prop tables for every component
+  in this skill. Look here for the complete surface of a single prop.
+- `references/icons.md` — generated, every `name` the built-in `Icon` registry
+  accepts. Check it before writing `<Icon name="…">`; unlisted names render
+  nothing.
+- `references/patterns.md` — complete copy-paste screens.
 
 ## The form model — two valid approaches
 
@@ -113,3 +122,48 @@ Use them inside `validationSchema` (the `Form` runs `validateValue` per field: o
 - All `BaseInputProps` inputs accept `accessibilityLabel` (falls back to the string `label`) and `accessibilityHint` (falls back to `helperText`). `Input` announces the label + "required" on focus, renders errors with `role="alert"` + a live region, and announces them assertively on blur.
 - `Checkbox`, `Switch`, and `ControlField` accept `accessibilityLabel` for when there is no visible text label. `ControlField` makes the whole row a single pressable/accessible target.
 - Always set `testID` on fields you need to reach in tests.
+
+## Anything this skill does not cover
+
+This skill covers form composition, input components, validation, and keyboard
+handling. Platform Blocks is much larger — 97 components, 25 charts, and 18
+hooks. Do not guess an API for something outside this scope; fetch the generated
+docs instead:
+
+| What you need | Where |
+| --- | --- |
+| Index of every page, one line each | `https://platform-blocks.com/llms.txt` |
+| One component or chart | `https://platform-blocks.com/llms/components/<Name>.md` |
+| One hook | `https://platform-blocks.com/llms/hooks/<useName>.md` |
+| Guides | `https://platform-blocks.com/llms/guides/{getting-started,accessibility,localization}.md` |
+| Everything in one file (~1.3 MB) | `https://platform-blocks.com/llms-full.txt` |
+
+`<Name>` is the exact PascalCase export name — `.../llms/components/DataTable.md`,
+`.../llms/components/AreaChart.md`. Each page carries the component's full prop
+table (type, required, default, description) plus runnable examples, generated
+from the source, so it is authoritative where memory is not. When you are unsure
+whether something exists or what it is called, read `llms.txt` first — it lists
+every page with a one-line summary.
+
+Import paths: components come from the package root (`import { X } from
+'@platform-blocks/ui'`). The exceptions are subpath-only: `FormLayout`
+(`@platform-blocks/ui/FormLayout`), `AudioPlayer`
+(`@platform-blocks/ui/AudioPlayer`), and the whole `Navigation` module —
+`NavigationContainer`, `createStackNavigator`, `createDrawerNavigator`,
+`Screen`, `useNavigation`, `useRoute` (`@platform-blocks/ui/Navigation`). A few
+utilities also live on subpaths (e.g. `validationRules` on
+`@platform-blocks/ui/Input`). A docs page existing does not guarantee a root
+export — `HoverCard`, for instance, is internal and has no page and no export.
+
+Notably outside this skill:
+
+- **Reporting submit results** — `Toast` (via `useToast`), `Alert`,
+  `LoadingOverlay`, `Dialog`. A form screen almost always needs one of these.
+- **Date/time *display* components** — only the `*Input` variants are covered
+  here; `Calendar`, `MiniCalendar`, `DatePicker`, `TimePicker`, `MonthPicker` and
+  `YearPicker` have their own pages.
+- **Tables and lists** for showing submitted data — `DataTable`, `DataList`,
+  `Table`.
+- **Install and provider wiring** → the `platform-blocks-setup` skill. **Screen
+  layout** → `platform-blocks-layout`. **Theme tokens** →
+  `platform-blocks-theming`.

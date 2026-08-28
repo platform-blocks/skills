@@ -12,7 +12,16 @@ Everything imports from the package root:
 import { Flex, Row, Column, Grid, GridItem, Card, Surface, Block, AppShell } from '@platform-blocks/ui';
 ```
 
-`references/api.md` has full prop tables; `references/patterns.md` has complete copy-paste screens.
+Four reference files sit alongside this one:
+
+- `references/api.md` — the curated API: how the pieces compose, the union
+  types, the defaults that bite. **Read this first.**
+- `references/props.md` — generated, exhaustive prop tables for every component
+  in this skill. Look here for the complete surface of a single prop.
+- `references/icons.md` — generated, every `name` the built-in `Icon` registry
+  accepts. Check it before writing `<Icon name="…">`; unlisted names render
+  nothing.
+- `references/patterns.md` — complete copy-paste screens.
 
 ## Core primitives
 
@@ -142,3 +151,81 @@ Two ways to build app chrome:
 9. **`Card.Section` must be a direct child** of `Card` (fragment/View wrappers break the
    first/last padding detection).
 10. `gap`/spacing tokens top out at `'3xl'` (32) — for bigger separations use numbers.
+11. **`Grid` breaks under static web rendering (SSR / prerender).** `Grid` resolves
+    `columns` and `GridItem` `span` against `useWindowDimensions()` at render time.
+    During Expo Router's static web export there is no window, so width is `0`, the
+    `base` value wins, and those percentage widths are **baked into the exported
+    HTML** — and hydration does not patch them, so a prerendered page stays stacked
+    at every viewport. For any route that is statically rendered, build breakpoint
+    layouts with a wrapping `Flex` + `flexBasis` instead, which needs no width
+    measurement:
+
+    ```tsx
+    // SSR-correct responsive grid — pure CSS wrapping, no width measurement.
+    // flexBasis sets the target column width; flexGrow lets the last row fill.
+    <Flex direction="row" wrap="wrap" gap="md">
+      {features.map((feature) => (
+        <Card
+          key={feature.title}
+          variant="elevated"
+          p="lg"
+          style={{ flexBasis: 320, flexGrow: 1 }}
+        >
+          {/* … */}
+        </Card>
+      ))}
+    </Flex>
+    ```
+
+    This is what `universal-template`'s `FeatureGrid` ships, for exactly this
+    reason.
+
+    `Grid` is fine in native apps and in client-only web routes. Note that
+    `useBreakpoint()` does **not** have this problem — it lives in the other
+    breakpoint system (`core/responsive`), which explicitly falls back to a desktop
+    width when `window` is absent and recomputes on mount. `Grid` uses
+    `core/theme/breakpoints` + `useWindowDimensions()`, which has no such guard.
+
+## Anything this skill does not cover
+
+This skill covers layout primitives, the responsive system, and app chrome.
+Platform Blocks is much larger — 97 components, 25 charts, and 18 hooks. Do not
+guess an API for something outside this scope; fetch the generated docs instead:
+
+| What you need | Where |
+| --- | --- |
+| Index of every page, one line each | `https://platform-blocks.com/llms.txt` |
+| One component or chart | `https://platform-blocks.com/llms/components/<Name>.md` |
+| One hook | `https://platform-blocks.com/llms/hooks/<useName>.md` |
+| Guides | `https://platform-blocks.com/llms/guides/{getting-started,accessibility,localization}.md` |
+| Everything in one file (~1.3 MB) | `https://platform-blocks.com/llms-full.txt` |
+
+`<Name>` is the exact PascalCase export name — `.../llms/components/DataTable.md`,
+`.../llms/components/AreaChart.md`. Each page carries the component's full prop
+table (type, required, default, description) plus runnable examples, generated
+from the source, so it is authoritative where memory is not. When you are unsure
+whether something exists or what it is called, read `llms.txt` first — it lists
+every page with a one-line summary.
+
+Import paths: components come from the package root (`import { X } from
+'@platform-blocks/ui'`). The exceptions are subpath-only: `FormLayout`
+(`@platform-blocks/ui/FormLayout`), `AudioPlayer`
+(`@platform-blocks/ui/AudioPlayer`), and the whole `Navigation` module —
+`NavigationContainer`, `createStackNavigator`, `createDrawerNavigator`,
+`Screen`, `useNavigation`, `useRoute` (`@platform-blocks/ui/Navigation`). A few
+utilities also live on subpaths (e.g. `validationRules` on
+`@platform-blocks/ui/Input`). A docs page existing does not guarantee a root
+export — `HoverCard`, for instance, is internal and has no page and no export.
+
+Notably outside this skill:
+
+- **Navigation components** — `Tabs`, `Breadcrumbs`, `Pagination`, `Stepper`,
+  `Menu`, `Spotlight`, `TableOfContents`, `Tree`, `Link`.
+- **Data display** — `Table`, `DataTable`, `DataList`, `Timeline`, `Badge`,
+  `Chip`, `Avatar`, `Accordion`, `Collapse`, `ListGroup`, `Carousel`, `Markdown`.
+- **Overlays and feedback** — `Dialog`, `Popover`, `Tooltip`, `ContextMenu`,
+  `Toast`, `Alert`, `Progress`, `Loader`, `Skeleton`, `LoadingOverlay`.
+- **Media** — `Image`, `Gallery`, `Video`, `Waveform`, and `AudioPlayer`
+  (subpath-only: `import { AudioPlayer } from '@platform-blocks/ui/AudioPlayer'`).
+- **Install and provider wiring** → the `platform-blocks-setup` skill. **Theme
+  tokens** → `platform-blocks-theming`. **Forms** → `platform-blocks-forms`.

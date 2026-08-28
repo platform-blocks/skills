@@ -114,6 +114,14 @@ item (so the grid has trailing bottom space of one rowGap). Responsive `span` /
 `columns` resolve against `useWindowDimensions().width` with
 `DEFAULT_BREAKPOINTS` (480/640/960/1200) — re-resolves live on resize/rotation.
 
+**SSR / static web caveat:** because resolution depends on a measured window,
+Grid produces wrong output under Expo Router's static web export. With no window
+the width reads `0`, the `base` value wins, and the resulting percentage widths
+are written into the exported HTML; hydration does not correct them, so a
+prerendered route stays at its `base` layout forever. Use a wrapping
+`Flex direction="row" wrap="wrap"` with `flexBasis`/`flexGrow` children for
+statically rendered routes — see pitfall 11 in SKILL.md.
+
 ## Responsive utilities (root exports)
 
 | Export | Signature | Notes |
