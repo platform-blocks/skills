@@ -235,7 +235,7 @@ want the scroll-spy data without `TableOfContents`.
 ## Anything this skill does not cover
 
 This skill covers in-page navigation controls and how they meet Expo Router.
-plocks is much larger — 97 components, 25 charts, and 18 hooks. Do not
+plocks is much larger — 100+ core UI components, 24 chart types, and 48 documented hooks. Do not
 guess an API for something outside this scope; fetch the generated docs instead:
 
 | What you need | Where |

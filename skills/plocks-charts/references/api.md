@@ -3,7 +3,7 @@
 All components and types below are exported from the package root:
 `import { LineChart, ChartThemeProvider, ... } from '@plocks/charts';`
 
-## Chart catalog (25 components)
+## Chart catalog (24 components)
 
 | Component | Primary data prop | Description |
 |---|---|---|

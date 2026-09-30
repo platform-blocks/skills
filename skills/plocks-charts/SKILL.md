@@ -1,12 +1,12 @@
 ---
 name: plocks-charts
-description: Add data visualization to a React Native or Expo app with @plocks/charts. Use when installing the charts package, choosing among its 25 chart types (line, bar, area, pie/donut, scatter, sparkline, heatmap, candlestick, sankey, and more), theming charts to match the app via ChartThemeProvider and hostThemeBridge, wiring tooltips/crosshairs/pan-zoom interactions, or rendering streaming/live data.
+description: Add data visualization to a React Native or Expo app with @plocks/charts. Use when installing the charts package, choosing among its 24 chart types (line, bar, area, pie/donut, scatter, sparkline, heatmap, candlestick, sankey, and more), theming charts to match the app via ChartThemeProvider and hostThemeBridge, wiring tooltips/crosshairs/pan-zoom interactions, or rendering streaming/live data.
 ---
 
 # plocks Charts
 
 `@plocks/charts` is a React Native + Web charting library (SVG via
-`react-native-svg`, animations via `react-native-reanimated`) with 25 chart
+`react-native-svg`, animations via `react-native-reanimated`) with 24 chart
 components, a shared interaction engine (tooltips, crosshair, pan/zoom), and a
 theme bridge for host design systems. Docs: https://plocks.dev
 
@@ -155,8 +155,9 @@ supports `keyboardNavigation` and `ariaLabelFormatter(slice, percentage)`.
 ## Anything this skill does not cover
 
 This skill covers the separate `@plocks/charts` package. plocks
-is much larger — 97 components, 25 charts, and 18 hooks. Do not guess an
-API for something outside this scope; fetch the generated docs instead:
+is much larger — 100+ core UI components, 24 chart types, and 48 documented
+hooks. Do not guess an API for something outside this scope; fetch the generated
+docs instead:
 
 | What you need | Where |
 | --- | --- |
@@ -181,7 +182,7 @@ also exported from `@plocks/ui`; the `Navigation` module uses the
 
 Notably outside this skill:
 
-- **The UI library itself** (`@plocks/ui`) — its 97 components, theme
+- **The UI library itself** (`@plocks/ui`) — its 100+ components, theme
   system, and layout primitives are a different package. Charts are usually
   placed inside a `Card`/`Surface` from it.
 - **Install and provider wiring** → the `plocks-setup` skill.

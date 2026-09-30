@@ -255,7 +255,7 @@ custom content instead.
 ## Anything this skill does not cover
 
 This skill covers tables, lists, trees, feeds, and the status chrome around
-them. plocks is much larger — 97 components, 25 charts, and 18 hooks.
+them. plocks is much larger — 100+ core UI components, 24 chart types, and 48 documented hooks.
 Do not guess an API for something outside this scope; fetch the generated docs
 instead:
 

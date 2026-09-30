@@ -140,8 +140,8 @@ and always stamps `data-plocks-color-scheme="light|dark"` on `<html>`. With
 ## Anything this skill does not cover
 
 This skill covers the theme object, color schemes, palettes, surfaces, and
-variant color resolution. plocks is much larger — 97 components, 25
-charts, and 18 hooks. Do not guess an API for something outside this scope;
+variant color resolution. plocks is much larger — 100+ core UI components, 24 chart types,
+and 48 documented hooks. Do not guess an API for something outside this scope;
 fetch the generated docs instead:
 
 | What you need | Where |

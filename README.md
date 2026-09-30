@@ -24,7 +24,7 @@ Swap in any skill name from the table below. Installs use the [skills.sh](https:
 | `plocks-theming` | Custom palettes, light/dark mode, surfaces, web CSS variables |
 | `plocks-layout` | Flex, Grid, spacing, breakpoints, AppShell |
 | `plocks-forms` | Form, every input component, validation, keyboard handling |
-| `plocks-charts` | All 25 chart types in `@plocks/charts` |
+| `plocks-charts` | All 24 chart types in `@plocks/charts` |
 | `plocks-feedback-overlays` | Toasts, dialogs, popovers, menus, tooltips, loaders |
 | `plocks-data-display` | DataTable, Table, Tree, Timeline, Accordion, badges |
 | `plocks-navigation` | Tabs, Stepper, Pagination, Spotlight, Expo Router |
