@@ -3,7 +3,7 @@
 # plocks-feedback-overlays — generated prop reference
 
 Exhaustive prop tables, extracted from the component sources of
-`@plocks/ui@0.1.0` — the same data behind
+`@plocks/ui@0.2.0` — the same data behind
 https://plocks.dev/llms.txt.
 
 This file is generated. `api.md` next to it is hand-written and covers what
@@ -208,7 +208,7 @@ The Menu component provides a dropdown interface for navigation links, actions, 
 | `defaultOpened` | `boolean` | — | `false` | Initial open state when uncontrolled. @default false |
 | `onChange` | `(opened: boolean) => void` | — | — | Called with the requested open state (both modes). |
 | `trigger` | `'click' \| 'hover' \| 'contextmenu'` | — | `'click'` | What opens the menu: a press on the trigger (`click`), the pointer resting on it (`hover`, web), or a right-click / long-press (`contextmenu`) — the menu then opens at the pointer. |
-| `position` | `MenuPosition` | — | `'auto'` | Placement relative to the trigger, written for LTR (mirrored in RTL). |
+| `position` | `MenuPosition` | — | `'auto' on web, 'top' on native (flips below when needed)` | Placement relative to the trigger, written for LTR (mirrored in RTL). |
 | `offset` | `number` | — | `4` | Gap between trigger and menu, px. @default 4 |
 | `closeOnClickOutside` | `boolean` | — | `true` | Close when pressing outside the menu. @default true |
 | `closeOnEscape` | `boolean` | — | `true` | Close on Escape (web) / Android back. Only the topmost overlay closes. @default true |
@@ -222,6 +222,7 @@ The Menu component provides a dropdown interface for navigation links, actions, 
 | `children` | `ReactNode` | yes | — | The trigger element followed by a `Menu.Dropdown`. |
 | `disabled` | `boolean` | — | `false` | Disable the trigger. |
 | `strategy` | `'absolute' \| 'fixed' \| 'portal'` | — | `isWeb ? 'fixed' : 'portal'` | 'fixed' (web default): viewport-fixed; 'absolute'; 'portal' (native default): rendered in an RN Modal at the app root. |
+| `aria-label` | `string` | — | — | Accessible name of the menu. Defaults to the trigger labelling it (web). |
 | `style` | `StyleProp<S>` | — | — | Style for the root element — merged last, after the component's own styles. |
 | `testID` | `string` | — | — | Test identifier for the root element. |
 | `m` | `number` | — | — | Margin applied to all sides |
@@ -317,6 +318,7 @@ ContextMenu shows actions for a target on right-click or long-press.
 | `opened` | `boolean` | — | — | Controlled open state. |
 | `defaultOpened` | `boolean` | — | `false` | Initial open state when uncontrolled. @default false |
 | `position` | `{ x: number; y: number }` | — | — | Controlled position (web: viewport coordinates; native: page coordinates). |
+| `aria-label` | `string` | — | `'Context menu'` | Accessible name of the menu. @default 'Context menu' |
 | `style` | `StyleProp<S>` | — | — | Style for the root element — merged last, after the component's own styles. |
 | `testID` | `string` | — | — | Test identifier for the root element. |
 | `m` | `number` | — | — | Margin applied to all sides |
@@ -535,6 +537,8 @@ The Progress component displays the completion progress of a task or process. Su
 | `orientation` | `ProgressOrientation` | — | `'horizontal'` | Axis the bar fills along. Vertical bars fill bottom-up. @default 'horizontal' |
 | `length` | `number \| `${number}%`` | — | — | Length along the main axis. Vertical bars default to 160. |
 | `trackColor` | `string` | — | — | Track (unfilled) color. Defaults to the theme's `backgrounds.border`. |
+| `aria-label` | `string` | — | — | Accessible name. Defaults to the `label` (web: by reference). |
+| `aria-valuetext` | `string` | — | — | Spoken value text, e.g. `"3 of 8 files"`. Defaults to the percentage. |
 | `style` | `StyleProp<S>` | — | — | Style for the root element — merged last, after the component's own styles. |
 | `testID` | `string` | — | — | Test identifier for the root element. |
 | `m` | `number` | — | — | Margin applied to all sides |

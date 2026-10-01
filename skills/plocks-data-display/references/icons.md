@@ -2,7 +2,7 @@
 
 # Icon registry — every built-in `name`
 
-`@plocks/ui@0.1.0` registers 216 icons by default,
+`@plocks/ui@0.2.0` registers 216 icons by default,
 using bundled Tabler-derived glyphs. These are the only strings `name`
 accepts out of the box — anything else renders nothing, so **do not guess an
 icon name**; pick one from this list or pass a component instead.

@@ -3,7 +3,7 @@
 # plocks-navigation — generated prop reference
 
 Exhaustive prop tables, extracted from the component sources of
-`@plocks/ui@0.1.0`, `@plocks/spotlight@0.1.0` — the same data behind
+`@plocks/ui@0.2.0`, `@plocks/spotlight@0.2.0` — the same data behind
 https://plocks.dev/llms.txt.
 
 This file is generated. `api.md` next to it is hand-written and covers what
@@ -202,6 +202,7 @@ Step-by-step navigation interface, perfect for multi-step forms, wizards, and pr
 | `completedIcon` | `ReactNode` | — | — | Icon to display when step is completed |
 | `allowNextStepsSelect` | `boolean` | — | — | Whether next steps (steps with higher index) can be selected |
 | `children` | `ReactNode` | yes | — | Step content |
+| `aria-label` | `string` | — | — | Accessible name of the stepper (renders it as a labelled group). |
 | `style` | `StyleProp<S>` | — | — | Style for the root element — merged last, after the component's own styles. |
 | `testID` | `string` | — | — | Test identifier for the root element. |
 | `m` | `number` | — | — | Margin applied to all sides |
@@ -338,6 +339,7 @@ A versatile component for creating styled hyperlinks and navigation elements wit
 | `children` | `React.ReactNode` | yes | — | Link text content |
 | `href` | `string` | — | — | Destination URL. On web the link is a real `<a href>` (middle-click, open in new tab, …). |
 | `onPress` | `() => void` | — | — | Custom press handler (overrides navigating to `href`) |
+| `onNavigate` | `() => void` | — | — | Client-side navigation on an ordinary click/press. Modified web clicks keep the native anchor behavior. |
 | `size` | `SizeValue` | — | `'lg'` | Size of the link text (default: 'lg' = 16px to match the Text component) |
 | `c` | `ColorProp \| 'inherit'` | — | — | Palette token, `'primary.6'` shade syntax, CSS color, or `'inherit'` |
 | `variant` | `'default' \| 'subtle' \| 'hover-underline'` | — | `'default'` | Link variant |

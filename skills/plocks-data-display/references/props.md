@@ -3,7 +3,7 @@
 # plocks-data-display — generated prop reference
 
 Exhaustive prop tables, extracted from the component sources of
-`@plocks/ui@0.1.0`, `@plocks/qrcode@0.1.0`, `@plocks/code@0.1.0` — the same data behind
+`@plocks/ui@0.2.0`, `@plocks/qrcode@0.2.0`, `@plocks/code@0.2.0` — the same data behind
 https://plocks.dev/llms.txt.
 
 This file is generated. `api.md` next to it is hand-written and covers what
@@ -145,7 +145,7 @@ Table provides semantic rows, columns, and cells for simple tabular content.
 | `withRowBorders` | `boolean` | — | — | Add borders between rows (`data` mode) |
 | `captionSide` | `'top' \| 'bottom'` | — | — | Caption position |
 | `layout` | `'auto' \| 'fixed'` | — | — | Table layout mode |
-| `variant` | `'default' \| 'vertical'` | — | — | Variant of table layout |
+| `variant` | `'default' \| 'vertical'` | — | — | `vertical` places data headers down the first column (`data` mode). |
 | `tabularNums` | `boolean` | — | — | Enable tabular numbers for better number alignment |
 | `fullWidth` | `boolean` | — | — | Make table take full width of container |
 | `columns` | `TableColumnConfig[]` | — | — | Column width configuration for auto-sizing (`data` mode) |
@@ -177,6 +177,12 @@ Table provides semantic rows, columns, and cells for simple tabular content.
 | `darkHidden` | `boolean` | — | — | Do not render in the dark color scheme. |
 | `hiddenFrom` | `BreakpointToken` | — | — | Do not render when the viewport is at least this breakpoint wide (`width >= theme.breakpoints[bp]`). |
 | `visibleFrom` | `BreakpointToken` | — | — | Render only when the viewport is at least this breakpoint wide. |
+| `aria-rowindex` | `number` | — | — |  |
+| `aria-colindex` | `number` | — | — |  |
+| `aria-rowcount` | `number` | — | — |  |
+| `aria-colcount` | `number` | — | — |  |
+| `aria-colspan` | `number` | — | — |  |
+| `aria-sort` | `'ascending' \| 'descending' \| 'none' \| 'other'` | — | — |  |
 
 ## DataList
 

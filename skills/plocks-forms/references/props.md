@@ -3,7 +3,7 @@
 # plocks-forms — generated prop reference
 
 Exhaustive prop tables, extracted from the component sources of
-`@plocks/ui@0.1.0`, `@plocks/dates@0.1.0` — the same data behind
+`@plocks/ui@0.2.0`, `@plocks/dates@0.2.0` — the same data behind
 https://plocks.dev/llms.txt.
 
 This file is generated. `api.md` next to it is hand-written and covers what
